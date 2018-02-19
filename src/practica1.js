@@ -11,8 +11,10 @@ var MemoryGame = MemoryGame || {};
 MemoryGame = function(gs) {
     this.gs = gs;
     this.cards = [];
-    this.state;
+    this.state = 'idle';
     this.message;
+
+    var flippedcard;
 
     this.initGame = function () {
         var missingc = 0;
@@ -48,11 +50,32 @@ MemoryGame = function(gs) {
     }
 
     this.loop = function () {
-        this.draw();
+        var self = this;
+        setInterval(function () {
+            self.draw();
+        }, 16);
     }
 
     this.onClick = function (cardId) {
-
+        if(this.state === 'idle') {
+            this.state = 'one';
+            this.cards[cardId].flip();
+            flippedcard = cardId;
+        }
+        else if(this.state === 'one') {
+            this.state = 'idle';
+            this.cards[cardId].flip();
+            if(this.cards[cardId].compareTo(this.cards[flippedcard])) {
+                console.log('equal')
+                this.cards[cardId].found();
+                this.cards[flippedcard].found();
+            }
+            else {
+                console.log('wrong');
+                this.cards[cardId].flip();
+                this.cards[flippedcard].flip();
+            }
+        }
     }
 };
 
