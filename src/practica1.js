@@ -51,6 +51,7 @@ MemoryGame = function(gs) {
     }
 
     this.loop = function () {
+        var self = this;
         var intervalId = setInterval(function () {
             self.draw();
             if(self.message === 'You win!!') {
