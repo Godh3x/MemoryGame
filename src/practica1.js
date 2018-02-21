@@ -58,7 +58,7 @@ MemoryGame = function(gs) {
     }
 
     this.onClick = function (cardId) {
-        if(this.state === 'no-clicks') {
+        if(this.state === 'no-clicks' || this.cards[cardId].state==='found') {
             return;
         }
         else if(this.state === 'idle') {
@@ -66,7 +66,7 @@ MemoryGame = function(gs) {
             this.cards[cardId].flip();
             flippedcard = cardId;
         }
-        else if(this.state === 'one') {
+        else if(this.state === 'one' && flippedcard !== cardId) {
             this.state = 'idle';
             this.cards[cardId].flip();
             if(this.cards[cardId].compareTo(this.cards[flippedcard])) {
