@@ -51,17 +51,16 @@ MemoryGame = function(gs) {
     }
 
     this.loop = function () {
-        var self = this;
         var intervalId = setInterval(function () {
-            self.draw();
-            if(self.message === 'You win!!') {
+            this.draw();
+            if(this.message === 'You win!!') {
                 clearInterval(intervalId);
             }
-        }, 16);
+        }.bind(this), 16);
     }
 
     this.onClick = function (cardId) {
-        if(this.state === 'no-clicks' || this.cards[cardId].state==='found') {
+        if(this.state === 'no-clicks' || cardId === null || cardId < 0 || this.cards[cardId].state==='found') {
             return;
         }
         else if(this.state === 'idle') {
@@ -85,12 +84,11 @@ MemoryGame = function(gs) {
             else {
                 this.message = 'Try again';
                 this.state = 'no-clicks';
-                var self = this;
                 setTimeout(function() {
-                    self.state = 'idle';
-                    self.cards[cardId].flip();
-                    self.cards[flippedcard].flip();
-                    }, 1000);
+                    this.state = 'idle';
+                    this.cards[cardId].flip();
+                    this.cards[flippedcard].flip();
+                    }.bind(this), 1000);
             }
         }
     }
